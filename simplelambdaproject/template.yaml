@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  AWS
+
+  Sample SAM Template for AWS
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 20
+
+Resources:
+  LambdaFunctionHandler:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: MyLambda
+      Role: arn:aws:iam::987450053827:role/lamda_basic_role
+      CodeUri: simplelambdaproject
+      Handler: com.amazonaws.lambda.demo.LambdaFunctionHandler::handleRequest
+      Runtime: java8
+      MemorySize: 512
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          PARAM1: VALUE
+      Events:
+        MylambdaApi:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /user
+            Method: post
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+   MylambdaApi:
+    Description: "API Gateway endpoint URL for test stage for codr-cognito-user function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/test/user"
+    #Value: !Sub "https://o3l3rgtvie:execute-api:us-west-2:amazonaws:com/test/codr-cognito-user"
+   LambdaFunctionHandler:
+    Description: "CognitoUserHandler Lambda Function ARN"
+    Value: !GetAtt LambdaFunctionHandler.Arn

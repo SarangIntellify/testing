@@ -1,0 +1,5 @@
+com\amazonaws\lambda\demo\Database.class
+com\amazonaws\lambda\demo\Response.class
+com\amazonaws\lambda\demo\LambdaFunctionHandler.class
+com\amazonaws\lambda\demo\User.class
+com\amazonaws\lambda\demo\Request.class
